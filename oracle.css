@@ -1,0 +1,150 @@
+/* CSS declarations go here */
+body {
+  font-family: sans-serif;
+  background-color: #FFF;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 0;
+  margin: 0;
+
+  font-size: 16px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 100%;
+  background: white;
+}
+
+header {
+  padding: 20px 15px 15px 15px;
+  position: relative;
+}
+
+#login-buttons {
+  display: block;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin: 0;
+  margin-bottom: 10px;
+  display: inline-block;
+  margin-right: 1em;
+}
+
+.question h1 {
+	font-size: 3em;
+}
+
+h2.answer  {
+	font-size: 2em;
+}
+
+h2.answer span {
+	color: lightgrey;
+}
+
+form {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  position: relative;
+}
+
+.new-question input, .answer input, .protest input {
+  box-sizing: border-box;
+  padding: 10px 5px;
+  background: transparent;
+  border: 3px solid lightgrey;
+  width: 100%;
+  padding-right: 80px;
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.new-question input:focus{
+  outline: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+.hide {
+  float: right;
+  font-weight: bold;
+  background: none;
+  font-size: 1em;
+  border: none;
+  position: relative;
+}
+
+li {
+  position: relative;
+  list-style: none;
+  padding: 15px;
+  border-bottom: #eee solid 1px;
+}
+
+li .text {
+  margin-left: 10px;
+}
+
+li.hidden {
+  color: #888;
+}
+
+li.hidden .text {
+  text-decoration: line-through;
+}
+
+li.private {
+  background: #eee;
+  border-color: #ddd;
+}
+
+header .hide-unused {
+  float: right;
+}
+
+.toggle-private {
+  margin-left: 5px;
+} 
+
+.username {
+	float: right;
+	color: grey;
+	font-size: .8em; 
+}
+
+.error-message {
+	color: red;
+	clear: both;
+}
+
+.protest-image img{
+	width: 100%;
+}
+
+@media (max-width: 600px) {
+  li {
+    padding: 12px 15px;
+  }
+
+  .search {
+    width: 150px;
+    clear: both;
+  }
+
+  .new-question input {
+    padding-bottom: 5px;
+  }
+}

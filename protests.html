@@ -1,0 +1,28 @@
+<template name="protests">
+	<div class="container">
+		<h1>Protest Generator</h1>
+		{{> slogans}}
+		{{> error}}
+		{{> protestImage}}
+		</div>
+</template>
+
+<template name="slogans">
+	<div class="protest">
+		<form class="new-task">
+			<input type="text" name="first" placeholder="First slogan" />
+			<input type="text" name="second" placeholder="Second slogan" />
+			<input id="submit" type="submit" value="Generate Protest" />
+		</form>
+	</div>
+</template>
+
+<template name="error">
+  <div class="error-message">{{errorMessage}}</div>
+</template>
+
+<template name="protestImage">
+	{{#each images}}
+	<div class="protest-image"><img src="{{this.name}}" alt=""/></div>
+	{{/each}}
+</template>

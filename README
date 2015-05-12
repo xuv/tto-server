@@ -1,0 +1,21 @@
+
+ /$$$$$$$$ /$$$$$$$$ /$$$$$$
+|__  $$__/|__  $$__//$$__  $$
+   | $$      | $$  | $$  \ $$
+   | $$      | $$  | $$  | $$
+   | $$      | $$  | $$  | $$
+   | $$      | $$  | $$  | $$
+   | $$      | $$  |  $$$$$$/
+   |__/      |__/   \______/
+
+
+    The    Tech    Oracle
+=============================
+
+This is a Meteor application.
+
+It uses additionnal packages like:
+ - iron:router
+ - artwells:accounts-guest
+
+

@@ -1,0 +1,37 @@
+<template name="addQuestions">
+	<div class="container">
+		{{> header }}
+		<div id="title">
+			<h1>Enter your question</h1>
+			{{#if currentUser}}
+			<label class="hide-unused">
+				<input type="checkbox" checked="{{hideUnused}}" />
+				Hide unused questions 
+			</label>
+			{{/if}}
+		</div>
+		<form class="new-question">
+				<input type="text" name="text" placeholder="Type here to add new question" />
+		</form>
+		
+		<ul>
+			{{#each questions}}
+				{{> question}}
+			{{/each}}
+		</ul>
+	</div>
+</template>
+
+<template name="question">
+	<li class="{{#if hidden}}hidden{{/if}}">
+		{{#if currentUser}}
+		<button class="hide">{{#if hidden}}&#x2b;{{else}}&times;{{/if}}</button>
+		{{/if}}
+		
+		<span class="text">{{text}}</span>
+		
+		{{#if currentUser}}
+		{{#if username}}<span class="username">{{username}}</span>{{/if}}
+		{{/if}}
+	</li>
+</template>

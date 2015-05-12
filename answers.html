@@ -1,0 +1,30 @@
+<template name="answerQuestion">
+	<div class="container">
+		{{> header }}
+		{{#if question}}
+		<div class="question">
+			<h1>{{question.text}}</h1>
+		</div>
+		{{#if answer}}
+			<h2 class="answer"><span>You said: </span>{{answer.text}}</h2>
+			<form id="change-answer" class="answer">
+				<input type="hidden" name="answerId" value="{{answer._id}}">
+				<input type="text" name="text" placeholder="Change the answer" />
+			</form>
+		{{else}}
+			<form id="create-answer" class="answer">
+				<input type="hidden" name="questionId" value="{{question._id}}">
+				<input type="text" name="text" placeholder="Type your response here" />
+			</form>
+		{{/if}}
+		
+		{{/if}}
+	</div>
+</template>
+
+<template name="noMoreQuestion">
+	<div class="container">
+		{{> header }}
+		<h1>Sorry, no more questions for you at this moment.</h1>
+	</div>
+</template>
