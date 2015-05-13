@@ -8,6 +8,13 @@
 				<input type="text" name="text" placeholder="Type here to add new question" />
 		</form>
 		{{> yield "list"}}
+		{{#if more}}
+		
+		<div>
+			<h2>Help the Oracle help you</h2>
+			<a href="/finger/{{fingerId}}/answers/">Click here to tell us a little about your self?</a>
+		</div>
+		{{/if}}
 	</div>
 </template>
 

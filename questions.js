@@ -21,6 +21,13 @@ if (Meteor.isClient) {
 		fingerId: function(){
 			var OracleController = Iron.controller();
 			return OracleController.params.fingerId;
+		},
+		more: function(){
+			var OracleController = Iron.controller();
+			var el =  Questions.findOne({owner: OracleController.params.fingerId}, {sort: {createdAt: -1}});
+			if( el ){
+				return true;
+			}
 		}
 	});
 	

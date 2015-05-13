@@ -21,6 +21,7 @@ Router.route('/finger/:fingerId/answers', function(){
 		
 		var questions = Questions.find({
 				$and: [
+					{ owner: 'admin'},
 					{ hidden: {$ne: true} },
 					{ _id: {$nin: exclude} }
 					]
@@ -33,7 +34,7 @@ Router.route('/finger/:fingerId/answers', function(){
 
 	if (this.ready()) {
 		if ( this.params.fingerId === 'admin' ) {
-			this.render('adminQuestion');
+			this.render('adminAnswer');
 		} else {
 			var randomQuestion  = getRandomQuestion();
 			console.log("Random Question " + randomQuestion);
@@ -54,21 +55,21 @@ Router.route('/finger/:fingerId/answers/:_id', function () {
 		{owner: this.params.fingerId},
 		{questionId: this.params._id}
 	]});
-	this.render('answerQuestion', {data:  {
+	this.render('fingerAnswer', {data:  {
 		question : item,
 		answer : answer }
 	});
 });
 
 if (Meteor.isClient) {
-	Template.answerQuestion.helpers({
+	Template.fingerAnswer.helpers({
 		fingerId: function(){
 			var OracleController = Iron.controller();
 			return OracleController.params.fingerId;
 		}
 	});
 		
-	Template.answerQuestion.events({
+	Template.fingerAnswer.events({
 		"submit #create-answer": function(event){
 			var text = event.target.text.value;
 			var questionId = event.target.questionId.value;
