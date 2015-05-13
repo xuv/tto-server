@@ -1,0 +1,33 @@
+<template name="comments">
+	<div class="container">
+		{{> header }}
+		<h1>Comment these images</h1>
+		{{#each posts}}
+			{{> post}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="post">
+	<div class="post">
+		<img src="/images-agnese/{{name}}" />
+		<form method="POST">
+			<input type="hidden" name="agneseId" value="{{_id}}">
+			<textarea name="comment" placeholder="Write your comment here and then press 'Send comment'"></textarea>
+			<input type="submit" name="submit" value="Send comment" />
+		</form>
+		<div class="replies">
+		{{#each postedComments _id }}
+			{{> postedComment}}
+		{{/each}}
+		</div>
+	</div>
+</template>
+
+<template name="postedComment">
+	<div class="comment {{#if isOwner owner}}you{{/if}}">
+		<strong>{{#if isOwner owner}}You{{else}}Someone{{/if}} said: </strong><br>
+		<blockquote>{{text}}</blockquote>
+	</div>
+	
+</template>

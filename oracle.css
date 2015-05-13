@@ -57,7 +57,7 @@ form {
   position: relative;
 }
 
-.new-question input, .answer input, .protest input {
+.new-question input, .answer input, .protest input, .post input {
   box-sizing: border-box;
   padding: 10px 5px;
   background: transparent;
@@ -66,6 +66,20 @@ form {
   padding-right: 80px;
   font-size: 1.5em;
   margin-bottom: 1em;
+}
+
+input[type="submit"] {
+	background: #9EFF95;
+	border-color: #67FF59;
+}
+
+.post textarea {
+  box-sizing: border-box;
+  padding: 10px 5px;
+  background: transparent;
+  border: 3px solid lightgrey;
+  width: 100%;
+  font-size: 1.2em;
 }
 
 .new-question input:focus{
@@ -132,6 +146,34 @@ header .hide-unused {
 
 .protest-image img{
 	width: 100%;
+}
+
+.post{
+	text-align: center;
+	width: 100%;
+	border: 1px dashed lightgrey;
+	padding: 10px;
+	margin: 0 0 20px 0;
+}
+
+.post img {
+	width: 70%;
+}
+
+.comment {
+	text-align: left;
+	padding: 10px;
+	border-bottom: 1px solid lightgrey;
+}
+
+.you {
+	background: #EAE4FF; 
+}
+
+.post hr {
+	background: lightgrey;
+	height: 1px;
+	border: none;
 }
 
 @media (max-width: 600px) {

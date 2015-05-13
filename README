@@ -27,3 +27,11 @@ $ meteor
 Start Google-Chrome (or Chromium) browser like this:
 $ google-chrome --kiosk --use-fake-ui-for-media-stream http://localhost:3000/
 
+
+Tools
+-----
+
+To populate a database:
+
+mongoimport --host localhost:3001 -d meteor -c agnese --drop --file /home/juego/Doc/Iterations/oracle/public/test.txt
+

@@ -11,6 +11,7 @@
 <template name="slogans">
 	<div class="protest">
 		<form class="new-task">
+			<input type="hidden" name="fingerId" value="{{fingerId}}" />
 			<input type="text" name="first" placeholder="First slogan" />
 			<input type="text" name="second" placeholder="Second slogan" />
 			<input id="submit" type="submit" value="Generate Protest" />
@@ -23,7 +24,7 @@
 </template>
 
 <template name="protestImage">
-	{{#each images}}
-	<div class="protest-image"><img src="/protests/{{this.name}}" alt=""/></div>
-	{{/each}}
+	{{#if images}}
+	<div class="protest-image"><img src="/protests/{{images.name}}" alt=""/></div>
+	{{/if}}
 </template>
