@@ -6,83 +6,80 @@
 Questions = new Mongo.Collection("questions");
 
 Router.route('/questions', function () {
-  this.render('addQuestions');
+  this.render('questions');
 });
 
-
-if (Meteor.isClient) {
-	if ( Meteor.userId() != null ) {
-		Meteor.subscribe("questions-admin");
+Router.route('/finger/:fingerId/questions', function(){
+	this.render('questions');
+	if (this.params.fingerId == 'admin') {
+		this.render('adminQuestion', {to: 'title'});
 	} else {
-		Meteor.subscribe("questions");
-	}	
-		
-	Template.addQuestions.helpers({
-		questions: function() {
-			if (Session.get("hideUnused")) {
-				return Questions.find({hidden: {$ne: true}}, {sort: {createdAt: -1}});
-			} else {
-				return Questions.find({}, {sort: {createdAt: -1}});
-			}
+		this.render('oracleQuestion', {to: 'title'});
+	}
+	this.render('submittedQuestions', {to: 'list'});
+});
+
+if (Meteor.isClient) {	
+	Template.questions.helpers({
+		fingerId: function(){
+			var OracleController = Iron.controller();
+			return OracleController.params.fingerId;
 		}
 	});
 	
-	Template.addQuestions.events({
+	Template.questions.events({
 		"submit .new-question": function(event){
-			var text = event.target.text.value;	
-			Meteor.call("addQuestion", text);
-			
+			console.log('blah');
+			var text = event.target.text.value;
+			var fingerId = event.target.fingerId.value;
+			console.log('User entered a new question : ' + text + " user" );	
+			Meteor.call("addQuestion", text, fingerId);
 			event.target.text.value = ""; // clear the form
-			
 			return false; // prevent default form submit
-		},
-		
-		"change .hide-unused input": function( event ) {
-			Session.set("hideUnused", event.target.checked);
 		}
 	});
 	
-	Template.question.events({
+	Template.submittedQuestions.helpers({
+		listOfQuestions: function() {
+			var OracleController = Iron.controller();
+			return Questions.find({owner: OracleController.params.fingerId}, {sort: {createdAt: -1}});
+		}
+	});
+	
+	Template.submittedQuestions.events({
 		"click .hide": function () {
 			Meteor.call("hideQuestion", this._id, ! this.hidden);
 		}
 	});
-
 }
 
 if (Meteor.isServer){
-	Meteor.publish("questions", function () {
-		return Questions.find({
-			hidden: {$ne: true}
-		});
+	Meteor.publish("questions", function (owner) {
+		if (owner === 'admin'){
+			return Questions.find({
+				owner: owner
+			});
+		} else {
+			return Questions.find({
+				owner: owner,
+				hidden: {$ne: true}
+			});
+		}
 	});
-	
-	Meteor.publish("questions-admin", function () {
-		return Questions.find({});
-	});
-	
 }
 
 Meteor.methods({
-	addQuestion: function( text ) {
-		
-		if ( Meteor.userId() != null ) {
-			Questions.insert({
-				text: text,							// text of the question
-				createdAt: new Date(),				// current time
-				owner: Meteor.userId(),				// _id of logged in user
-				username: Meteor.user().username	// username of logged in user
-			});
-		} else {
-		
-			Questions.insert({
-				text: text,							// text of the question
-				createdAt: new Date()				// current time
-			});
-		}
+	addQuestion: function( text, owner ) {
+		console.log('adding question');
+		Questions.insert({
+			text: text,							// text of the question
+			createdAt: new Date(),				// current time
+			owner: owner
+		});
 	},
-	
 	hideQuestion: function( questionId, setHidden ) {
 		Questions.update(questionId, {$set: {hidden: setHidden}});
 	}
-});
+});	
+
+

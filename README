@@ -18,4 +18,12 @@ It uses additionnal packages like:
  - iron:router
  - artwells:accounts-guest
 
+Usage
+-----
+
+In the oracle directory, start Meteor:
+$ meteor
+ 
+Start Google-Chrome (or Chromium) browser like this:
+$ google-chrome --kiosk --use-fake-ui-for-media-stream http://localhost:3000/
 

@@ -1,37 +1,37 @@
-<template name="addQuestions">
+<template name="questions">
 	<div class="container">
 		{{> header }}
-		<div id="title">
-			<h1>Enter your question</h1>
-			{{#if currentUser}}
-			<label class="hide-unused">
-				<input type="checkbox" checked="{{hideUnused}}" />
-				Hide unused questions 
-			</label>
-			{{/if}}
-		</div>
-		<form class="new-question">
+		{{> yield "title"}}
+		
+		<form class="new-question" method="POST">
+				<input type="hidden" name="fingerId" value="{{fingerId}}" />
 				<input type="text" name="text" placeholder="Type here to add new question" />
 		</form>
-		
-		<ul>
-			{{#each questions}}
-				{{> question}}
-			{{/each}}
-		</ul>
+		{{> yield "list"}}
 	</div>
 </template>
 
-<template name="question">
-	<li class="{{#if hidden}}hidden{{/if}}">
-		{{#if currentUser}}
-		<button class="hide">{{#if hidden}}&#x2b;{{else}}&times;{{/if}}</button>
-		{{/if}}
-		
-		<span class="text">{{text}}</span>
-		
-		{{#if currentUser}}
-		{{#if username}}<span class="username">{{username}}</span>{{/if}}
-		{{/if}}
-	</li>
+<template name="submittedQuestions">			
+	<ul>
+		{{#each listOfQuestions}}
+		<li class="{{#if this.hidden}}hidden{{/if}}">
+			<button class="hide">{{#if this.hidden}}&#x2b;{{else}}&times;{{/if}}</button>
+			<span class="text">{{this.text}}</span>
+		</li>
+		{{/each}}
+	</ul>
 </template>
+
+<template name="oracleQuestion">
+	<div id="title">
+		<h1>What would you like to ask T.T.O. ?</h1>
+	</div>
+</template>
+
+<template name="adminQuestion">
+	<div id="title">
+		<h1>What would you like to ask the visitor?</h1>
+	</div>
+</template>
+
+

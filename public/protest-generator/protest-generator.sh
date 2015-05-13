@@ -10,7 +10,7 @@ FONT="CFJackStory-Regular.ttf"
 FIRST="Make everything perfect!"
 SECOND="Give us our Google back!"
 
-FOLDER=".."
+FOLDER="../protests"
 OUTPUT="protest-$(date +%Y-%m-%d_%H-%M-%S).jpg"
 
 # Get the arguments passed to the script

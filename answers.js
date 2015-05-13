@@ -16,7 +16,6 @@ Router.route('/answers', function(){
 			});
 		};
 		
-		console.log(exclude);
 		var questions = Questions.find({
 				$and: [
 					{ hidden: {$ne: true} },

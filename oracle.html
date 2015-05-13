@@ -1,5 +1,13 @@
 <head>
   <title>The Tech Oracle</title>
+  <script language="javascript">
+	/* Prevents right click in Chrome */
+	window.oncontextmenu = function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	};
+	</script>
 </head>
 
 <body>
@@ -7,6 +15,9 @@
 
 <template name="header">
 		<header>
-			{{> loginButtons}}
 		</header>
+</template>
+
+<template name="loading">
+
 </template>

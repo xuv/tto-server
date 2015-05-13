@@ -1,5 +1,6 @@
 <template name="protests">
 	<div class="container">
+		{{> header }}
 		<h1>Protest Generator</h1>
 		{{> slogans}}
 		{{> error}}
@@ -23,6 +24,6 @@
 
 <template name="protestImage">
 	{{#each images}}
-	<div class="protest-image"><img src="{{this.name}}" alt=""/></div>
+	<div class="protest-image"><img src="/protests/{{this.name}}" alt=""/></div>
 	{{/each}}
 </template>
