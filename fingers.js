@@ -16,7 +16,8 @@ Router.configure({
 	subscriptions: function() {
 		// add the subscription to the waitlist
 		//this.subscribe('fingers').wait();
-		this.subscribe('questions', this.params.fingerId).wait();
+		//this.subscribe('questions', this.params.fingerId).wait();
+		this.subscribe('answers', this.params.fingerId).wait();
 	},
 	waitOn: function(){
 		Meteor.subscribe('fingers');
@@ -24,7 +25,7 @@ Router.configure({
 	controller: OracleController,
 	onBeforeAction: function(){
 		console.dir(this.params);
-		if(this.ready()){
+		if(this.ready() && this.params.fingerId){
 			console.log('checking user');
 			var finger = Fingers.findOne({fingerId: this.params.fingerId});
 			// Checking if user exists
@@ -33,6 +34,8 @@ Router.configure({
 			} else {
 				this.render('fingerRegister');
 			}
+		} else {
+			this.next();
 		}
 	}
 });

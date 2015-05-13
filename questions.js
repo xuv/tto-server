@@ -5,11 +5,8 @@
 
 Questions = new Mongo.Collection("questions");
 
-Router.route('/questions', function () {
-  this.render('questions');
-});
-
 Router.route('/finger/:fingerId/questions', function(){
+	this.subscribe('questions', this.params.fingerId);
 	this.render('questions');
 	if (this.params.fingerId == 'admin') {
 		this.render('adminQuestion', {to: 'title'});

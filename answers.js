@@ -5,16 +5,19 @@
 
 Answers = new Mongo.Collection("answers");
 
-Router.route('/answers', function(){
+Router.route('/finger/:fingerId/answers', function(){
+	this.subscribe('questions', 'admin');
+	
+	var alreadyAnswered = Answers.find({owner: this.params.fingerId});
+	
 	var getRandomQuestion = function() {
 		var exclude = [];
 		
-		if ( Meteor.userId() != null ) {
-			var answers = Answers.find({owner: Meteor.userId()});
-			answers.forEach(function(answer){
-					exclude.push(answer.questionId);
-			});
-		};
+		alreadyAnswered.forEach(function(answer){
+				exclude.push(answer.questionId);
+		});
+			
+		console.log("Exclude: " + exclude);
 		
 		var questions = Questions.find({
 				$and: [
@@ -27,45 +30,55 @@ Router.route('/answers', function(){
 			return questions[Math.floor(Math.random()* questions.length)];
 		}
 	}
-	
-	this.subscribe('answers').wait();
 
 	if (this.ready()) {
-		var randomQuestion  = getRandomQuestion();
-		console.log("Random Question " + randomQuestion);
-		if ( randomQuestion ) {
-			Router.go('/answers/' + randomQuestion._id);
+		if ( this.params.fingerId === 'admin' ) {
+			this.render('adminQuestion');
 		} else {
-			this.render('noMoreQuestion');
+			var randomQuestion  = getRandomQuestion();
+			console.log("Random Question " + randomQuestion);
+			if ( randomQuestion ) {
+				Router.go('/finger/' + this.params.fingerId + '/answers/' + randomQuestion._id);
+			} else {
+				console.log('no More questions for this user');
+				this.render('noMoreQuestion');
+			}
 		}
 	}	
 });
 
-Router.route('/answers/:_id', function () {
-  var item = Questions.findOne({_id: this.params._id});
-  var answer = Answers.findOne({$and: [
-	  {owner: Meteor.userId()},
-	  {questionId: this.params._id}
-	  ]});
-  this.render('answerQuestion', {data:  {
-	  question : item,
-	  answer : answer }
+Router.route('/finger/:fingerId/answers/:_id', function () {
+	this.subscribe('questions', 'admin');
+	var item = Questions.findOne({_id: this.params._id});
+	var answer = Answers.findOne({$and: [
+		{owner: this.params.fingerId},
+		{questionId: this.params._id}
+	]});
+	this.render('answerQuestion', {data:  {
+		question : item,
+		answer : answer }
 	});
 });
 
 if (Meteor.isClient) {
-	Meteor.subscribe("answers");
-	
+	Template.answerQuestion.helpers({
+		fingerId: function(){
+			var OracleController = Iron.controller();
+			return OracleController.params.fingerId;
+		}
+	});
+		
 	Template.answerQuestion.events({
 		"submit #create-answer": function(event){
 			var text = event.target.text.value;
 			var questionId = event.target.questionId.value;
+			var fingerId = event.target.fingerId.value;
 			
-			Meteor.call("answerQuestion", text, questionId);
+			Meteor.call("answerQuestion", text, questionId, fingerId);
 			
 			event.target.text.value = ""; // clear the form
 			
-			Router.go('/answers');
+			Router.go('/finger/' + fingerId + '/answers');
 			
 			return false; // prevent default form submit
 		},
@@ -73,12 +86,13 @@ if (Meteor.isClient) {
 		"submit #change-answer": function(event){
 			var text = event.target.text.value;
 			var answerId = event.target.answerId.value;
+			var fingerId = event.target.fingerId.value;
 			
 			Meteor.call("changeAnswer", text, answerId);
 			
 			event.target.text.value = ""; // clear the form
 			
-			Router.go('/answers');
+			Router.go('/finger/' + fingerId + '/answers');
 			
 			return false; // prevent default form submit
 		}
@@ -87,28 +101,20 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-	Meteor.publish("answers", function () {
-		return Answers.find({});
+	Meteor.publish("answers", function (owner) {
+		return Answers.find({owner: owner});
 	});
 }
 
 
 Meteor.methods({
-	answerQuestion: function( text, questionId ) {
-		if ( Meteor.userId() != null ) {
-			Answers.insert({
-				text: text,							// text of the question
-				createdAt: new Date(),				// current time
-				questionId : questionId,
-				owner: Meteor.userId(),				// _id of logged in user
-			});
-		} else {
-			Answers.insert({
-				text: text,	
-				createdAt: new Date(),
-				questionId : questionId
-			});
-		}
+	answerQuestion: function( text, questionId, owner ) {
+		Answers.insert({
+			text: text,							// text of the question
+			createdAt: new Date(),				// current time
+			questionId : questionId,
+			owner: owner						// _id of logged in user
+		});
 	},
 	changeAnswer: function( text, answerId ) {
 		Answers.update(

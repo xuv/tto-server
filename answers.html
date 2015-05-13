@@ -7,12 +7,14 @@
 		</div>
 		{{#if answer}}
 			<h2 class="answer"><span>You said: </span>{{answer.text}}</h2>
-			<form id="change-answer" class="answer">
+			<form id="change-answer" class="answer" method="POST">
+				<input type="hidden" name="fingerId" value="{{fingerId}}" />
 				<input type="hidden" name="answerId" value="{{answer._id}}">
 				<input type="text" name="text" placeholder="Change the answer" />
 			</form>
 		{{else}}
-			<form id="create-answer" class="answer">
+			<form id="create-answer" class="answer" method="POST">
+				<input type="hidden" name="fingerId" value="{{fingerId}}" />
 				<input type="hidden" name="questionId" value="{{question._id}}">
 				<input type="text" name="text" placeholder="Type your response here" />
 			</form>
@@ -26,5 +28,12 @@
 	<div class="container">
 		{{> header }}
 		<h1>Sorry, no more questions for you at this moment.</h1>
+	</div>
+</template>
+
+<template name="adminQuestion">
+	<div class="container">
+		{{> header }}
+		<h1>YOU are the Oracle remember.</h1>
 	</div>
 </template>
