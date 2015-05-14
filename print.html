@@ -1,12 +1,16 @@
 <template name="print">
 	<div class="container home">
 		<h1>Print the oracle</h1>
-		{{#if isVisible}}
-		<form class="new-account" method="post">
-			<input type="submit" value="Print"/>
-		</form>
-		{{else}}
-		Pinting...
-		{{/if}}
+		{{> printform}}
 	</div>
+</template>
+
+<template name="printform">
+	{{#if isVisible}}
+	<form class="new-account" type="post">
+		<input type="submit" value="Print"/>
+	</form>
+	{{else}}
+	The Oracle has printed!
+	{{/if}}
 </template>

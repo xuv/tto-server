@@ -8,11 +8,14 @@ Router.route('/finger/:fingerId/print', function(){
 });
 
 if (Meteor.isClient) {
-	Template.print.helpers({
+	Template.printform.helpers({
 		isVisible: function(){
-				return true;
+			var controller = Iron.controller();
+			var fingerId = controller.params.fingerId;
+			var user = Fingers.findOne({fingerId: fingerId});
+			console.log(user.oracle);
+			return user.oracle === undefined;
 		}
-		
 	});
 	
 	Template.print.events({
@@ -86,3 +89,13 @@ if (Meteor.isServer) {
 		}
 	});
 }
+
+Meteor.methods({
+	getPrintedOracle: function(owner){
+		return Fingers.findOne({fingerId: owner}).oracle;
+		/*
+		console.log(f.oracle);
+		return f.oracle;
+		*/
+	}
+});
