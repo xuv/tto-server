@@ -48,7 +48,9 @@ Router.route('/finger/:fingerId/answers', function(){
 	}	
 });
 
-Router.route('/finger/:fingerId/answers/:_id', function () {
+Router.route('/finger/:fingerId/answers/:_id', {
+	name: 'oneAnswer',
+	action: function () {
 	this.subscribe('questions', 'admin');
 	var item = Questions.findOne({_id: this.params._id});
 	var answer = Answers.findOne({$and: [
@@ -59,6 +61,7 @@ Router.route('/finger/:fingerId/answers/:_id', function () {
 		question : item,
 		answer : answer }
 	});
+	}
 });
 
 if (Meteor.isClient) {

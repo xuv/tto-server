@@ -2,6 +2,9 @@
 	<div class="container">
 		{{> header }}
 		<h1>Comment these images</h1>
+		<div class="navigation">
+			<button id="clickme">Next image</button>
+		</div>
 		{{#each posts}}
 			{{> post}}
 		{{/each}}
@@ -11,16 +14,16 @@
 <template name="post">
 	<div class="post">
 		<img src="/images-agnese/{{name}}" />
-		<form method="POST">
-			<input type="hidden" name="agneseId" value="{{_id}}">
-			<textarea name="comment" placeholder="Write your comment here and then press 'Send comment'"></textarea>
-			<input type="submit" name="submit" value="Send comment" />
-		</form>
 		<div class="replies">
 		{{#each postedComments _id }}
 			{{> postedComment}}
 		{{/each}}
 		</div>
+		<form method="POST">
+			<input type="hidden" name="agneseId" value="{{_id}}">
+			<textarea name="comment" placeholder="Write your comment here and then press 'Send comment'"></textarea>
+			<input type="submit" name="submit" value="Send comment" />
+		</form>
 	</div>
 </template>
 

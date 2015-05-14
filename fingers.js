@@ -2,13 +2,35 @@
 /*********************************************************************\
  *  FINGERS															 *
 \*********************************************************************/
-var Fingers = new Mongo.Collection('fingers');
+Fingers = new Mongo.Collection('fingers');
 
 OracleController = RouteController.extend();
 
 Router.route('/finger/:fingerId', function(){
 	this.render('fingerWelcome');
 });
+
+var checkUser =  function(){
+	console.dir(this.params);
+	if(this.ready() && this.params.fingerId){
+		console.log('checking user');
+		var finger = Fingers.findOne({fingerId: this.params.fingerId});
+		// Checking if user exists
+		if (finger) {
+			this.next();
+		} else {
+			this.render('fingerRegister');
+		}
+	} else {
+		this.next();
+	}
+}
+
+
+Router.onBeforeAction(checkUser, {
+	//except: ['agneseImage', 'oneAnswer']
+});
+
 
 Router.configure({
 	loadingTemplate: 'loading',
@@ -21,23 +43,9 @@ Router.configure({
 	},
 	waitOn: function(){
 		Meteor.subscribe('fingers');
+		Meteor.subscribe('agnese', {});
 	},
-	controller: OracleController,
-	onBeforeAction: function(){
-		console.dir(this.params);
-		if(this.ready() && this.params.fingerId){
-			console.log('checking user');
-			var finger = Fingers.findOne({fingerId: this.params.fingerId});
-			// Checking if user exists
-			if (finger) {
-				this.next();
-			} else {
-				this.render('fingerRegister');
-			}
-		} else {
-			this.next();
-		}
-	}
+	controller: OracleController
 });
 
 if (Meteor.isClient) {

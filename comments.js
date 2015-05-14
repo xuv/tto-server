@@ -3,29 +3,49 @@
  *  COMMENTS														 *
 \*********************************************************************/
 
-var Agnese = new Meteor.Collection('agnese');
-var Comments = new Meteor.Collection('comments');
+Agnese = new Meteor.Collection('agnese');
+Comments = new Meteor.Collection('comments');
 
 Router.route('/finger/:fingerId/comments', function(){
-	this.subscribe('agnese', {});
-	this.subscribe('comments');
-	this.render('comments');
-	//Router.go('/finger/' + this.params.fingerId + '/comments/1');
+	
+	var getRandomImageId = function() {
+		var imagesArray = Agnese.find({}).fetch();			
+		//console.log(imagesArray);
+		var rand = Math.floor(Math.random()* imagesArray.length);
+		return imagesArray[rand];
+	}
+	
+	if( this.ready() ){
+		var img = getRandomImageId();
+		console.log("Should go to " + img._id);
+		Router.go('/finger/' + this.params.fingerId + '/comments/' + img._id );
+	}
 });
 
 
-/*
 Router.route('/finger/:fingerId/comments/:agneseId', function(){
-	this.subscribe('agnese', { agneseId:  this.params.agneseId });
-	this.subscribe('comments');
-	this.render('comments');
+		//this.subscribe('agnese', {_id: this.params.agneseId});
+		this.subscribe('comments', {});
+		this.render('comments', {
+			data: function(){
+				return Agnese.find({_id: this.params.agneseId});
+			}
+		});
 });
-*/
+
 
 if (Meteor.isClient) {
 	Template.comments.helpers({
 		posts: function() {
-			return Agnese.find({});
+			var OracleController = Iron.controller();
+			var agneseId = OracleController.params.agneseId;
+			console.log("AgneseId: " + agneseId);
+			
+			return Agnese.find({_id: agneseId});
+		},
+		fingerId: function(){
+			var OracleController = Iron.controller();
+			return OracleController.params.fingerId;
 		}
 	});
 	
@@ -36,6 +56,15 @@ if (Meteor.isClient) {
 		}
 	});
 	
+	Template.comments.events({
+		'click #clickme': function () {
+			var OracleController = Iron.controller();
+			var fingerId = OracleController.params.fingerId;
+			
+			Router.go('/finger/' + fingerId + '/comments');
+		}
+	});
+	
 	Template.post.events({
 		"submit form": function( event ){
 			var OracleController = Iron.controller();
@@ -43,12 +72,12 @@ if (Meteor.isClient) {
 			
 			var text = event.target.comment.value;
 			var agneseId = event.target.agneseId.value;
+			
 			console.log("comment: " + text + " " + agneseId )
-			
-			Meteor.call("postComment", text, agneseId, fingerId);
-			
+			if( text.trim() != "" ){
+				Meteor.call("postComment", text, agneseId, fingerId);
+			}
 			event.target.text.value = ""; // clear the form
-			
 			return false; // prevent default form submit
 		}
 	});
@@ -73,17 +102,19 @@ if (Meteor.isServer) {
 		return Agnese.find(object);
 	});
 	
-	Meteor.publish("comments", function () {
-		return Comments.find({});
+	Meteor.publish("comments", function ( object ) {
+		return Comments.find( object );
 	});
-}
-
-Meteor.methods({
-	postComment: function(text, postId, owner){
+	
+	Meteor.methods({
+		postComment: function(text, postId, owner){
 			Comments.insert({
 				text: text,
 				agneseId: postId,
 				owner: owner
 			});
 		}
-});
+	});
+}
+
+

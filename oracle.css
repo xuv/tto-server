@@ -1,4 +1,12 @@
 /* CSS declarations go here */
+
+@font-face {
+    font-family: OSP-DIN;
+    src: url('OSP-DIN.ttf');
+    /* font-weight:400; */
+}
+
+
 body {
   font-family: sans-serif;
   background-color: #FFF;
@@ -12,11 +20,11 @@ body {
   padding: 0;
   margin: 0;
 
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   min-height: 100%;
   background: white;
@@ -31,15 +39,29 @@ header {
   display: block;
 }
 
-h1 {
+h1, h2, h3, h4, h5, h6 {
+  font-family: OSP-DIN;
   font-size: 2.5em;
   margin: 0;
   margin-bottom: 10px;
-  display: inline-block;
+  display: block;
   margin-right: 1em;
 }
 
-.question h1 {
+h1 {
+	font-size: 3.9em;
+}
+
+
+.home h1 {
+	font-size: 6em;
+}
+
+.home h2 {
+	color: #333;
+}
+
+h2 {
 	font-size: 3em;
 }
 
@@ -133,6 +155,10 @@ header .hide-unused {
   margin-left: 5px;
 } 
 
+.nextQuestions {
+	margin-top: 2em;
+}
+
 .username {
 	float: right;
 	color: grey;
@@ -151,13 +177,11 @@ header .hide-unused {
 .post{
 	text-align: center;
 	width: 100%;
-	border: 1px dashed lightgrey;
-	padding: 10px;
 	margin: 0 0 20px 0;
 }
 
 .post img {
-	width: 70%;
+	width: 100%;
 }
 
 .comment {
