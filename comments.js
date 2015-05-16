@@ -126,7 +126,8 @@ if (Meteor.isServer) {
 			Comments.insert({
 				text: text,
 				agneseId: postId,
-				owner: owner
+				owner: owner,
+				createdAt: new Date()
 			});
 		}
 	});

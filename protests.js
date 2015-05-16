@@ -50,6 +50,14 @@ if (Meteor.isClient) {
 			var fingerId = event.target.fingerId.value;
 			
 			if ( first === "" | second === "" ) {
+				if ( second === "" ) {
+					event.target.second.focus();
+				}
+				
+				if ( first === "" ) {
+					event.target.first.focus();
+				}
+				
 				Session.set("errorMessage", "Fill both slogans");
 			} else {
 				Session.set("errorMessage", "");
@@ -109,7 +117,8 @@ if (Meteor.isServer) {
 		createProtest: function(first, second, owner){
 			Protests.insert({
 					owner: owner,
-					text: first + "\n" + second
+					text: first + "\n" + second,
+					createdAt: new Date()
 				});
 		}
 		

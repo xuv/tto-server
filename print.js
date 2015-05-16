@@ -125,9 +125,8 @@ if (Meteor.isServer) {
 			return data;
 		},
 		storeOracle: function(data, owner){
-			Fingers.update({fingerId: owner},{
-				fingerId : owner,
-				oracle: data
+			Fingers.update({fingerId: owner},{ 
+				$set : { oracle : data} 
 			});
 		}
 	});
@@ -136,9 +135,5 @@ if (Meteor.isServer) {
 Meteor.methods({
 	getPrintedOracle: function(owner){
 		return Fingers.findOne({fingerId: owner}).oracle;
-		/*
-		console.log(f.oracle);
-		return f.oracle;
-		*/
 	}
 });
