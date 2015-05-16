@@ -16,16 +16,28 @@ Router.route('/screensaver', function(){
 if (Meteor.isClient) {	
 	Template.screensaver.helpers({
 		answers: function(){
-			return Answers.find({});
+			return Answers.find({}, {
+				sort: {createdAt: -1},
+				limit: 250
+				});
 		},
 		questions: function(){
-			return Questions.find({});
+			return Questions.find({}, {
+				sort: {createdAt: -1},
+				limit: 250
+				});
 		},
 		comments: function(){
-			return Comments.find({});
+			return Comments.find({}, {
+				sort: {createdAt: -1},
+				limit: 250
+				});
 		},
 		slogans: function(){
-			return Protests.find({});
+			return Protests.find({}, {
+				sort: {createdAt: -1},
+				limit: 250
+				});
 		}
 		
 	});
