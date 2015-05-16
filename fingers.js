@@ -34,7 +34,7 @@ var checkUser =  function(){
 }
 
 Router.onBeforeAction(checkUser, {
-	except: ['screensaver', 'slideshow']
+	except: ['screensaver', 'slideshow', 'screensaver3']
 });
 
 
