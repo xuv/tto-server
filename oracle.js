@@ -7,7 +7,13 @@ Router.route('/', {
 	name : 'home'
 });
 
-if (Meteor.isClient) {	
+if (Meteor.isClient) {
+	Template.header.events({
+		"submit .logout": function(){
+			Router.go('/');
+			return false;
+		}
+	});	
 }
 
 if (Meteor.isServer) {

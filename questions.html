@@ -12,7 +12,11 @@
 		
 		<div class="nextQuestions">
 			<h2>Help the Oracle help you</h2>
-			<a href="/finger/{{fingerId}}/answers/">Click here to tell us a little about your self?</a>
+			<!-- <a href="/finger/{{fingerId}}/answers/">Click here to tell us a little about your self?</a> -->
+			<form id="next" type="post">
+				<input type="hidden" name="fingerId" value="{{fingerId}}" />
+				<input type="submit" value="Click here to tell us about yourself" class="large"/>
+			</form>
 		</div>
 		{{/if}}
 	</div>
@@ -30,6 +34,12 @@
 </template>
 
 <template name="oracleQuestion">
+	<div id="Welcome">
+		<h1>Welcome to registration!</h1>
+		<p>As The Tech Oracle is a global player, it only speaks in English.</p>
+		<p>The Oracle neither conceals, nor reveals, but indicates.</p>
+	</div>
+	
 	<div id="title">
 		<h1>What would you like to ask the Oracle?</h1>
 	</div>

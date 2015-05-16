@@ -1,9 +1,9 @@
 <template name="comments">
 	<div class="container">
 		{{> header }}
-		<h1>Comment these images</h1>
+		<h1>{{title}}</h1>
 		<div class="navigation">
-			<button id="clickme">Next image</button>
+			<button type="submit" id="clickme" class="large">Next image</button>
 		</div>
 		{{#each posts}}
 			{{> post}}

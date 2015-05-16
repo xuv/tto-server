@@ -3,8 +3,21 @@
  *  PRINT															 *
 \*********************************************************************/	
 
-Router.route('/finger/:fingerId/print', function(){
-	this.render('print');
+Router.route('/finger/:fingerId/prophecies', function(){
+	if ( this.params.fingerId != 'admin' & Fingers.findOne({fingerId: this.params.fingerId}).oracle ) {
+		console.log('User has already printed its Oracle');
+		this.render('alreadyPrinted');
+	} else {
+		var router = this;
+		Meteor.call('collectFingerData', this.params.fingerId, function(err, data){
+			console.log('data: ' + data);
+			if ( data.questions.length == 0 & data.answers.length === 0 & data.comments.length === 0 ){
+				router.render('noDataNoPrint');
+			} else {
+				router.render('print');
+			}
+		});
+	}
 });
 
 if (Meteor.isClient) {
@@ -12,11 +25,40 @@ if (Meteor.isClient) {
 		isVisible: function(){
 			var controller = Iron.controller();
 			var fingerId = controller.params.fingerId;
-			var user = Fingers.findOne({fingerId: fingerId});
-			console.log(user.oracle);
-			return user.oracle === undefined;
+			if (fingerId === 'admin'){
+				return true;	
+			} else {
+				var user = Fingers.findOne({fingerId: fingerId});
+				
+				console.log("User has already received an Oracle :  ")
+				console.log(user.oracle);
+				
+				
+				var bool;
+				if( user.oracle === undefined) {
+					bool = true;
+				} else {
+					bool = false;
+					// Automatic logout after the print command is sent.
+					Meteor.setTimeout(function(){
+						console.log('PRINT Event TIMEOUT Called');
+						Router.go('/');
+					}, 20000);
+				}
+				return bool;
+			}
 		}
 	});
+	
+	Template.noDataNoPrint.helpers({
+		blah: function(){
+			console.log('blah print displayed');
+			Meteor.setTimeout(function(){
+				console.log('NoDATANoPRINT Event TIMEOUT Called');
+				Router.go('/');
+			},20000);
+		}
+		});
 	
 	Template.print.events({
 		"submit form": function(){
@@ -34,13 +76,15 @@ if (Meteor.isServer) {
 			this.unblock();
 			try {
 				var data = Meteor.call('collectFingerData', fingerId);
-			
-				console.log('sending...');
+				
+				console.log('Sending this data to the Oracle: ' + data);
 				var result = HTTP.call("POST", "http://192.168.123.203:8000",
 					{data: data}
 				);
 				
-				Meteor.call('storeOracle', result.data, fingerId);
+				if (result.statusCode === 200) {
+					Meteor.call('storeOracle', result.data, fingerId);
+				}
 				return true;
 			} catch (e) {
 				// Got a network error, time-out or HTTP error in the 400 or 500 range.
@@ -66,7 +110,6 @@ if (Meteor.isServer) {
 			
 			// gather answers
 			var comments = [];
-			
 			Comments.find({owner: fingerId}).forEach( function(comment){
 				comments.push(comment.text);
 			});
@@ -75,7 +118,7 @@ if (Meteor.isServer) {
 			var data = { 
 				questions : questions,
 				answers : answers,
-				comments: comments,
+				comments: comments
 				};
 				
 			//console.log(data);

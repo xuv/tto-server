@@ -1,0 +1,22 @@
+<template name="screensaver">
+	<div id="screensaver">
+		<div>
+		{{#each answers}}
+			{{> word}}
+		{{/each}}
+		{{#each questions}}
+			{{> word}}
+		{{/each}}
+		{{#each comments}}
+			{{> word}}
+		{{/each}}
+		{{#each slogans}}
+			{{> word}}
+		{{/each}}
+		</div>
+	</div>
+</template>
+
+<template name="word">
+	<div class="word">{{text}}</div>
+</template>

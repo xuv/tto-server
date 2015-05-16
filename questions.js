@@ -40,6 +40,10 @@ if (Meteor.isClient) {
 			Meteor.call("addQuestion", text, fingerId);
 			event.target.text.value = ""; // clear the form
 			return false; // prevent default form submit
+		},
+		"submit #next": function(event){
+			Router.go('/finger/' + event.target.fingerId.value + '/answers/');
+			return false;
 		}
 	});
 	

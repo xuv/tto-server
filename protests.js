@@ -5,6 +5,8 @@
 
 var FingerId;
 
+Protests = new Meteor.Collection('protests');
+
 Images = new Mongo.Collection("images");
 
 Router.route('/finger/:fingerId/protests', function(){
@@ -42,7 +44,7 @@ if (Meteor.isClient) {
 	});		
   
 	Template.slogans.events({
-		"submit form": function(event){
+		"submit form.new-protest": function(event){
 			var first = event.target.first.value;
 			var second = event.target.second.value;
 			var fingerId = event.target.fingerId.value;
@@ -61,6 +63,10 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+	
+	Meteor.publish("protests", function ( object ) {
+		return Protests.find( object );
+	});
 	
 	Meteor.publish("images", function (owner) {
 		return Images.find({owner: owner});
@@ -92,12 +98,20 @@ if (Meteor.isServer) {
 	
 	Meteor.methods({
 		createSlogan: function(first, second, owner){
+			Meteor.call('createProtest', first, second, owner);
 			FingerId = owner;
 			console.log('create image : ' + owner);
 			// process.env.PWD returns the app folder
 			var file_path = process.env.PWD + "/public/protest-generator/protest-generator.sh";
 			var cmd = 'sh ' + file_path + ' -f "' + first + '" -s "' + second + '"';
 			_execSync(cmd, insertImage);
+		},
+		createProtest: function(first, second, owner){
+			Protests.insert({
+					owner: owner,
+					text: first + "\n" + second
+				});
 		}
+		
 	});
 }

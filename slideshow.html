@@ -1,0 +1,11 @@
+<template name="slideshow">
+	<div id="slideshow">
+		{{#each slides}}
+			{{> slide}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="slide">
+	<img src="/images-agnese/{{name}}" class="slide" />
+</template>

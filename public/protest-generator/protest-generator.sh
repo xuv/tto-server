@@ -4,7 +4,7 @@
 SCRIPTPATH=${0%/*}
 #SCRIPTPATH="/home/juego/Doc/Iterations/oracle/private/protest-generator/"
 
-FONT="CFJackStory-Regular.ttf"
+FONT="OSP-DIN.ttf"
 
 # Default quotes if nothing is provided
 FIRST="Make everything perfect!"

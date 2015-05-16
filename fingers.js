@@ -6,29 +6,35 @@ Fingers = new Mongo.Collection('fingers');
 
 OracleController = RouteController.extend();
 
+Router.route('/finger/', function(){
+	this.redirect('/');
+});
+
 Router.route('/finger/:fingerId', function(){
 	this.render('fingerWelcome');
 });
 
 var checkUser =  function(){
-	console.dir(this.params);
-	if(this.ready() && this.params.fingerId){
-		console.log('checking user');
+	console.log("User: " + this.params.fingerId + " is being called");
+	if( this.params.fingerId){
+		console.log('Checking if user exists...');
 		var finger = Fingers.findOne({fingerId: this.params.fingerId});
 		// Checking if user exists
 		if (finger) {
+			console.log('... and it does exists');
 			this.next();
 		} else {
+			console.log("No, it doesn't. Go register.");
 			this.render('fingerRegister');
 		}
 	} else {
+		console.log('No user id was submitted');
 		this.next();
 	}
 }
 
-
 Router.onBeforeAction(checkUser, {
-	//except: ['agneseImage', 'oneAnswer']
+	except: ['screensaver', 'slideshow']
 });
 
 
@@ -53,6 +59,7 @@ if (Meteor.isClient) {
 		fingerId: function(){
 			var controller = Iron.controller();
 			return controller.params.fingerId;
+			
 		}
 	});
 	

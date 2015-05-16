@@ -1,5 +1,6 @@
 <template name="print">
 	<div class="container home">
+		{{> header}}
 		<h1>Print the oracle</h1>
 		{{> printform}}
 	</div>
@@ -11,6 +12,16 @@
 		<input type="submit" value="Print"/>
 	</form>
 	{{else}}
-	The Oracle has printed!
+	The Oracle printed its prophecy now.
 	{{/if}}
+</template>
+
+<template name="noDataNoPrint">
+	<div class="container home">
+		{{> header}}
+		<h1>You can't get a prophecy!</h1>
+		<h2>You must first give some data.</h2>
+	</div>
+	
+	{{blah}}
 </template>

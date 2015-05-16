@@ -15,11 +15,11 @@ Router.route('/finger/:fingerId/comments', function(){
 		return imagesArray[rand];
 	}
 	
-	if( this.ready() ){
+	//if( this.ready() ){
 		var img = getRandomImageId();
 		console.log("Should go to " + img._id);
-		Router.go('/finger/' + this.params.fingerId + '/comments/' + img._id );
-	}
+		this.redirect('/finger/' + this.params.fingerId + '/comments/' + img._id );
+	//}
 });
 
 
@@ -46,6 +46,21 @@ if (Meteor.isClient) {
 		fingerId: function(){
 			var OracleController = Iron.controller();
 			return OracleController.params.fingerId;
+		},
+		title: function(){
+			var titles = [
+				'Can you describe what you feel while looking at this image?',
+				'Which personal situation comes back when looking at this image?',
+				'Where would you put this image in your flat?',
+				'What does this picture remind you of?',
+				'What is wrong?',
+				'Comment tis image?',
+				'What do you see in this image?',
+				'What is missing?',
+				'Where has this image been taken?',
+				'What would you add?'
+			];
+			return titles[Math.floor(Math.random() * titles.length)];
 		}
 	});
 	

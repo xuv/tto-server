@@ -1,0 +1,18 @@
+#slideshow {
+	position: absolute;
+	width: 100%;
+	height: 100%; 
+	overflow: hidden;
+	background: black;
+	color: #FFF;
+	font-family: OSP-DIN;
+}
+
+.slide {
+	position: absolute;
+}
+
+.hidden{
+	opacity: 0;
+}
+

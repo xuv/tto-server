@@ -30,8 +30,12 @@ body {
   background: white;
 }
 
+#createNewAccount{
+	margin-top: 5em;
+}
+
 header {
-  padding: 20px 15px 15px 15px;
+  /* padding: 20px 15px 15px 15px; */
   position: relative;
 }
 
@@ -52,6 +56,9 @@ h1 {
 	font-size: 3.9em;
 }
 
+h1.hello{
+	font-size: 6em;
+}
 
 .home h1 {
 	font-size: 6em;
@@ -79,7 +86,7 @@ form {
   position: relative;
 }
 
-.new-question input, .answer input, .protest input, .post input {
+.new-question input, .answer input, .protest input, .post input, button.large {
   box-sizing: border-box;
   padding: 10px 5px;
   background: transparent;
@@ -90,9 +97,15 @@ form {
   margin-bottom: 1em;
 }
 
-input[type="submit"] {
-	background: #9EFF95;
-	border-color: #67FF59;
+input[type="submit"]  {
+  box-sizing: border-box;
+  padding: 10px 5px;
+  width: 100%;
+  padding-right: 80px;
+  font-size: 1.2em;
+  margin-bottom: 1em;
+  background: #9EFF95; 
+  border-color: #67FF59;
 }
 
 .post textarea {
@@ -181,7 +194,7 @@ header .hide-unused {
 }
 
 .post img {
-	width: 100%;
+	width: 50%;
 }
 
 .comment {

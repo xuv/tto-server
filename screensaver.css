@@ -1,0 +1,21 @@
+#screensaver {
+	position: absolute;
+	width: 100%;
+	height: 100%; 
+	overflow: hidden;
+	background: black;
+	color: #FFF;
+	font-family: OSP-DIN;
+}
+
+.word {
+	position: absolute;
+	font-size: 10em;
+	text-align: center;
+	line-height: .8em;
+}
+
+.hidden{
+	opacity: 0;
+}
+

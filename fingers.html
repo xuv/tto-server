@@ -6,13 +6,15 @@
 
 <template name="fingerRegister">
 	<div class="container">
-		<h1>Hello!</h1>
+		<h1 class="hello">Hello!</h1>
 		<p>We could not find you in our database.</p>
 		<p>If you have already created an account, please re-scan your finger.</p>
-		<h3>Do you want to create a new account ?</h3>
-		<form class="new-account" type="post">
-			<input type="hidden" name="fingerId" value="{{fingerId}}"/>
-			<input type="submit" value="create account"/>
-		</form>
+		<div id="createNewAccount">
+			<h3>Do you want to create a new account ?</h3>
+			<form class="new-account" type="post">
+				<input type="hidden" name="fingerId" value="{{fingerId}}"/>
+				<input type="submit" value="create account"/>
+			</form>
+		</div>
 	</div>
 </template>
