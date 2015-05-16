@@ -12,6 +12,8 @@ Images = new Mongo.Collection("images");
 Router.route('/finger/:fingerId/protests', function(){
 	this.subscribe("images", this.params.fingerId );
 	this.render('protests');
+}, { 
+	name : 'protests'
 });
 
 
