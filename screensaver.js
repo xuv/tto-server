@@ -18,25 +18,25 @@ if (Meteor.isClient) {
 		answers: function(){
 			return Answers.find({}, {
 				sort: {createdAt: -1},
-				limit: 250
+				limit: 50
 				});
 		},
 		questions: function(){
 			return Questions.find({}, {
 				sort: {createdAt: -1},
-				limit: 250
+				limit: 50
 				});
 		},
 		comments: function(){
 			return Comments.find({}, {
 				sort: {createdAt: -1},
-				limit: 250
+				limit: 50
 				});
 		},
 		slogans: function(){
 			return Protests.find({}, {
 				sort: {createdAt: -1},
-				limit: 250
+				limit: 50
 				});
 		}
 		

@@ -101,7 +101,14 @@ if (Meteor.isClient) {
 			return false; // prevent default form submit
 		}
 	});
-
+	/*
+	Template.noMoreQuestion.onRendered(function(){
+		Meteor.setTimeout(function(){
+			console.log('NoMoreQuestion onRendered TIMEOUT');
+			Router.go('/');
+		}, 5000);
+	});
+	*/
 }
 
 if (Meteor.isServer) {
